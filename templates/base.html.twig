@@ -38,11 +38,11 @@
                 </li>
                 {% if app.user %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_index') }}">Wyloguj się</a>
+                        <a class="nav-link" href="{{ path('app_logout') }}">Wyloguj się</a>
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_index') }}">Zaloguj się</a>
+                        <a class="nav-link" href="{{ path('app_login') }}">Zaloguj się</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('app_index') }}">Zarejestruj się</a>
