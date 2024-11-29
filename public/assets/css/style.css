@@ -1,3 +1,9 @@
 .navbar-nav > li.active > a {
-    color: #daab8b;
+    color: #ebbc7c;
+}
+
+.custom-btn {
+    color: #1a0902;
+    background-color: #ebbc7c;
+    border-color: #755537;
 }
