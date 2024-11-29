@@ -18,7 +18,7 @@
             {% set inputClasses = 'form-control mb-3 w-50' %}
             <h1 class="h3 mb-3 font-weight-normal">Zaloguj się</h1>
 
-            <label for="usernameInput">Username</label>
+            <label for="usernameInput" class="mb-3">Nazwa użytkownika</label>
             <input type="text"
                    name="username"
                    id="usernameInput"
@@ -28,7 +28,7 @@
                    required
                    autofocus>
 
-            <label for="passwordInput">Password</label>
+            <label for="passwordInput" class="mb-3">Hasło</label>
             <input type="password"
                    name="password"
                    id="passwordInput"
@@ -39,7 +39,7 @@
             <input type="hidden"
                    name="_csrf_token"
                    value="{{ csrf_token('authenticate') }}">
-            <button class="btn btn-lg btn-dark" type="submit">
+            <button class="btn btn-dark" type="submit">
                 Zaloguj się
             </button>
         </form>
