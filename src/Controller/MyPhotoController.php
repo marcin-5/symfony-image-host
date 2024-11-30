@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Photo;
+use App\Service\PhotoVisibilityService;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
@@ -29,46 +30,24 @@ class MyPhotoController extends AbstractController
         ]);
     }
 
-    #[Route('/my-photos/set_private/{id}', name: 'app_set_photo_as_private')]
-    public function myPhotoSetAsPrivate(int $id, Request $request): Response
-    {
-        $entityManager = $this->doctrine->getManager();
-        $myPhoto = $entityManager->getRepository(Photo::class)->find($id);
-        if ($myPhoto && $this->getUser() === $myPhoto->getUser()) {
-            try {
-                $myPhoto->setPublic(false);
-                $entityManager->persist($myPhoto);
-                $entityManager->flush();
-                $this->addFlash('success', 'Ustawiono plik jako prywatny.');
-            } catch (\Exception $e) {
-                $this->addFlash('error', 'Wystąpił błąd przy ustawianiu pliku jako prywatny.');
-            }
+    #[Route('/my-photos/set_visibility/{id}/{visibility}', name: 'app_change_photo_visibility')]
+    public function myPhotoChangeVisibility(
+        Request $request,
+        PhotoVisibilityService $photoVisibilityService,
+        int $id,
+        bool $visibility
+    ): Response {
+        $messages = [
+            '1' => 'publiczny',
+            '0' => 'prywatny',
+        ];
+        if ($photoVisibilityService->makeVisible($id, $visibility)) {
+            $this->addFlash('success', "Ustawiono plik jako {$messages[$visibility]}.");
         } else {
-            $this->addFlash('warning', 'Nie jesteś właścicielem tego pliku.');
+            $this->addFlash('error', "Wystąpił błąd przy ustawianiu pliku jako {$messages[$visibility]}.");
         }
 
         return $this->redirectToRoute($request->query->get('l') ? 'app_latest_photos' : 'app_my_photos');
-    }
-
-    #[Route('/my-photos/set_public/{id}', name: 'app_set_photo_as_public')]
-    public function myPhotoSetAsPublic(int $id): Response
-    {
-        $entityManager = $this->doctrine->getManager();
-        $myPhoto = $entityManager->getRepository(Photo::class)->find($id);
-        if ($myPhoto && $this->getUser() === $myPhoto->getUser()) {
-            try {
-                $myPhoto->setPublic(true);
-                $entityManager->persist($myPhoto);
-                $entityManager->flush();
-                $this->addFlash('success', 'Ustawiono plik jako publiczny.');
-            } catch (\Exception $e) {
-                $this->addFlash('error', 'Wystąpił błąd przy ustawianiu pliku jako publiczny.');
-            }
-        } else {
-            $this->addFlash('warning', 'Nie jesteś właścicielem tego pliku.');
-        }
-
-        return $this->redirectToRoute('app_my_photos');
     }
 
     #[Route('/my-photos/remove/{id}', name: 'app_remove_photo')]

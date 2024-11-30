@@ -38,10 +38,10 @@
                                             <a href="{{ path('app_remove_photo', {'id': photo.id}) }}"
                                                class="badge custom-bg-danger">Usuń</a>
                                             {% if photo.public %}
-                                                <a href="{{ path('app_set_photo_as_private', {'id': photo.id}) }}?l=l"
+                                                <a href="{{ path('app_change_photo_visibility', {'id': photo.id, 'visibility':'0'}) }}?l=l"
                                                    class="badge custom-bg-set-private">Ustaw jako prywatne</a>
                                             {% else %}
-                                                <a href="{{ path('app_set_photo_as_private', {'id': photo.id}) }}?l=l"
+                                                <a href="{{ path('app_change_photo_visibility', {'id': photo.id, 'visibility':'1'}) }}?l=l"
                                                    class="badge custom-bg-set-public">Ustaw jako publiczne</a>
                                             {% endif %}
                                         {% else %}
