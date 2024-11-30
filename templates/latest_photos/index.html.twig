@@ -22,7 +22,7 @@
         <div class="mt-5">
             <div class="row">
                 {% for photo in latestPhotosPublic %}
-                    <div class="col-sm-12 col-lg-4">
+                    <div class="col-sm-12 col-lg-4 mb-3">
                         <div class="card-deck">
                             <div class="card d-flex justify-content-between">
                                 <div class="imageGallery1">
@@ -37,8 +37,15 @@
                                         {% if photo.user == app.user %}
                                             <a href="{{ path('app_remove_photo', {'id': photo.id}) }}"
                                                class="badge custom-bg-danger">Usuń</a>
-                                            <a href="{{ path('app_set_photo_as_private', {'id': photo.id}) }}"
-                                               class="badge custom-bg-set">Ustaw prywatne</a>
+                                            {% if photo.public %}
+                                                <a href="{{ path('app_set_photo_as_private', {'id': photo.id}) }}?l=l"
+                                                   class="badge custom-bg-set-private">Ustaw jako prywatne</a>
+                                            {% else %}
+                                                <a href="{{ path('app_set_photo_as_private', {'id': photo.id}) }}?l=l"
+                                                   class="badge custom-bg-set-public">Ustaw jako publiczne</a>
+                                            {% endif %}
+                                        {% else %}
+                                            &nbsp;
                                         {% endif %}
                                     </p>
                                 </div>

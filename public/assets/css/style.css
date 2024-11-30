@@ -40,8 +40,14 @@
     font-weight: bolder;
 }
 
-.custom-bg-set {
+.custom-bg-set-private {
     color: #fefeff;
-    background-color: #2255dd;
+    background-color: #2255aa;
+    font-weight: bolder;
+}
+
+.custom-bg-set-public {
+    color: #fefeff;
+    background-color: #227755;
     font-weight: bolder;
 }
