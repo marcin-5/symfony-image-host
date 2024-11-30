@@ -12,3 +12,17 @@
     color: #ebbc7c;
     background-color: #454340;
 }
+
+.custom-alert-danger {
+    color: #1a0902;
+    background-color: #dd8765;
+    border-color: #aa6543;
+    font-weight: bold;
+}
+
+.custom-alert-success {
+    color: #1a0902;
+    background-color: #89a876;
+    border-color: #678567;
+    font-weight: bold;
+}

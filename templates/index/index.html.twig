@@ -26,6 +26,18 @@
                                class="form-control btn custom-btn w-50 align-self-center"/>
                         {{ form_end(form) }}
 
+                        {% macro display_alerts(type, css_class) %}
+                            {% for message in app.flashes(type) %}
+                                <div class="alert {{ css_class }}" role="alert">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endmacro %}
+
+                        {% import _self as macros %}
+
+                        {{ macros.display_alerts('success', 'custom-alert-success') }}
+                        {{ macros.display_alerts('error', 'custom-alert-danger') }}
                     </div>
                 </div>
             </div>
