@@ -18,8 +18,14 @@ class MyPhotoController extends AbstractController
     }
 
     #[Route('/my-photos', name: 'app_my_photos')]
-    public function index()
+    public function index(): Response
     {
+        $entityManager = $this->doctrine->getManager();
+        $myPhotos = $entityManager->getRepository(Photo::class)->findBy(['user' => $this->getUser()]);
+
+        return $this->render('my_photo/index.html.twig', [
+            'myPhotos' => $myPhotos,
+        ]);
     }
 
     #[Route('/my-photos/set_private/{id}', name: 'app_set_photo_as_private')]
