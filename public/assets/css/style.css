@@ -27,6 +27,13 @@
     font-weight: bold;
 }
 
+.custom-alert-warning {
+    color: #1a0902;
+    background-color: #ebbc7c;
+    border-color: #705030;
+    font-weight: bold;
+}
+
 .custom-bg-danger {
     color: #fefeff;
     background-color: #dd4422;
