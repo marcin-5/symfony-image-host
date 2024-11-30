@@ -45,17 +45,21 @@ class MyPhotoController extends AbstractController
     {
         $entityManager = $this->doctrine->getManager();
         $myPhoto = $entityManager->getRepository(Photo::class)->find($id);
-        if ($this->getUser() === $myPhoto->getUser()) {
-            try {
-                $myPhoto->setPublic(true);
-                $entityManager->persist($myPhoto);
-                $entityManager->flush();
-                $this->addFlash('success', 'Ustawiono plik jako publiczny.');
-            } catch (\Exception $e) {
-                $this->addFlash('error', 'Wystąpił błąd przy ustawianiu pliku jako publiczny.');
+        if ($this->getUser()) {
+            if ($this->getUser() === $myPhoto->getUser()) {
+                try {
+                    $myPhoto->setPublic(true);
+                    $entityManager->persist($myPhoto);
+                    $entityManager->flush();
+                    $this->addFlash('success', 'Ustawiono plik jako publiczny.');
+                } catch (\Exception $e) {
+                    $this->addFlash('error', 'Wystąpił błąd przy ustawianiu pliku jako publiczny.');
+                }
+            } else {
+                $this->addFlash('warning', 'Nie jesteś właścicielem tego pliku.');
             }
         } else {
-            $this->addFlash('warning', 'Nie jesteś właścicielem tego pliku.');
+            $this->addFlash('warning', 'Nie jesteś zalogowany.');
         }
         return $this->redirectToRoute('app_latest_photos');
     }
@@ -65,22 +69,26 @@ class MyPhotoController extends AbstractController
     {
         $entityManager = $this->doctrine->getManager();
         $myPhoto = $entityManager->getRepository(Photo::class)->find($id);
-        if ($this->getUser() === $myPhoto->getUser()) {
-            try {
-                $fileManager = new Filesystem();
-                $fileManager->remove('images/hosting/' . $myPhoto->getFilename());
-                if ($fileManager->exists('images/hosting/' . $myPhoto->getFilename())) {
-                    $this->addFlash('error', 'Nie udało się usunąć pliku.');
-                } else {
-                    $entityManager->remove($myPhoto);
-                    $entityManager->flush();
-                    $this->addFlash('success', 'Plik został usunięty.');
+        if ($this->getUser()) {
+            if ($this->getUser() === $myPhoto->getUser()) {
+                try {
+                    $fileManager = new Filesystem();
+                    $fileManager->remove('images/hosting/' . $myPhoto->getFilename());
+                    if ($fileManager->exists('images/hosting/' . $myPhoto->getFilename())) {
+                        $this->addFlash('error', 'Nie udało się usunąć pliku.');
+                    } else {
+                        $entityManager->remove($myPhoto);
+                        $entityManager->flush();
+                        $this->addFlash('success', 'Plik został usunięty.');
+                    }
+                } catch (\Exception $e) {
+                    $this->addFlash('error', 'Wystąpił błąd przy usuwaniu pliku.');
                 }
-            } catch (\Exception $e) {
-                $this->addFlash('error', 'Wystąpił błąd przy usuwaniu pliku.');
+            } else {
+                $this->addFlash('warning', 'Nie jesteś właścicielem tego pliku.');
             }
         } else {
-            $this->addFlash('warning', 'Nie jesteś właścicielem tego pliku.');
+            $this->addFlash('warning', 'Nie jesteś zalogowany.');
         }
         return $this->redirectToRoute('app_latest_photos');
     }
