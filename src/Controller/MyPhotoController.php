@@ -41,7 +41,7 @@ class MyPhotoController extends AbstractController
             '1' => 'publiczny',
             '0' => 'prywatny',
         ];
-        if ($photoVisibilityService->makeVisible($id, $visibility)) {
+        if ($photoVisibilityService->updatePhotoVisibility($id, $visibility)) {
             $this->addFlash('success', "Ustawiono plik jako {$messages[$visibility]}.");
         } else {
             $this->addFlash('error', "Wystąpił błąd przy ustawianiu pliku jako {$messages[$visibility]}.");
