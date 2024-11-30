@@ -64,7 +64,6 @@ class MyPhotoController extends AbstractController
     public function myPhotoRemove(int $id): Response
     {
         $entityManager = $this->doctrine->getManager();
-        $entityManager = $this->doctrine->getManager();
         $myPhoto = $entityManager->getRepository(Photo::class)->find($id);
         if ($this->getUser() === $myPhoto->getUser()) {
             try {
