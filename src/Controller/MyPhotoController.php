@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+#[IsGranted('ROLE_USER')]
 class MyPhotoController extends AbstractController
 {
     public function __construct(private readonly ManagerRegistry $doctrine)
@@ -21,7 +22,7 @@ class MyPhotoController extends AbstractController
     {
     }
 
-    #[Route('/my-photos/set_private/{id}', name: 'app_set_photo_as_private'), isGranted('IS_AUTHENTICATED_FULLY')]
+    #[Route('/my-photos/set_private/{id}', name: 'app_set_photo_as_private')]
     public function myPhotoSetAsPrivate(int $id): Response
     {
         $entityManager = $this->doctrine->getManager();
@@ -41,7 +42,7 @@ class MyPhotoController extends AbstractController
         return $this->redirectToRoute('app_latest_photos');
     }
 
-    #[Route('/my-photos/set_public/{id}', name: 'app_set_photo_as_public'), isGranted('IS_AUTHENTICATED_FULLY')]
+    #[Route('/my-photos/set_public/{id}', name: 'app_set_photo_as_public')]
     public function myPhotoSetAsPublic(int $id): Response
     {
         $entityManager = $this->doctrine->getManager();
@@ -62,7 +63,7 @@ class MyPhotoController extends AbstractController
         return $this->redirectToRoute('app_latest_photos');
     }
 
-    #[Route('/my-photos/remove/{id}', name: 'app_remove_photo'), isGranted('IS_AUTHENTICATED_FULLY')]
+    #[Route('/my-photos/remove/{id}', name: 'app_remove_photo')]
     public function myPhotoRemove(int $id): Response
     {
         $entityManager = $this->doctrine->getManager();
