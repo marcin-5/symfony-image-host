@@ -47,7 +47,7 @@ class IndexController extends AbstractController
 
                         $this->addFlash('success', 'Plik został wgrany pomyślnie.');
                     } catch (\Exception $e) {
-                        $this->addFlash('error', 'Wystąpił nieoczekiwany błąd.<br>' . $e->getMessage());
+                        $this->addFlash('error', 'Wystąpił nieoczekiwany błąd.');
                     }
                 }
             }
