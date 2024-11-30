@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class MyPhotoController extends AbstractController
 {
@@ -20,12 +21,11 @@ class MyPhotoController extends AbstractController
     {
     }
 
-    #[Route('/my-photos/set_private/{id}', name: 'app_set_photo_as_private')]
+    #[Route('/my-photos/set_private/{id}', name: 'app_set_photo_as_private'), isGranted('IS_AUTHENTICATED_FULLY')]
     public function myPhotoSetAsPrivate(int $id): Response
     {
         $entityManager = $this->doctrine->getManager();
         $myPhoto = $entityManager->getRepository(Photo::class)->find($id);
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($this->getUser() === $myPhoto->getUser()) {
             try {
                 $myPhoto->setPublic(false);
@@ -41,12 +41,11 @@ class MyPhotoController extends AbstractController
         return $this->redirectToRoute('app_latest_photos');
     }
 
-    #[Route('/my-photos/set_public/{id}', name: 'app_set_photo_as_public')]
+    #[Route('/my-photos/set_public/{id}', name: 'app_set_photo_as_public'), isGranted('IS_AUTHENTICATED_FULLY')]
     public function myPhotoSetAsPublic(int $id): Response
     {
         $entityManager = $this->doctrine->getManager();
         $myPhoto = $entityManager->getRepository(Photo::class)->find($id);
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($this->getUser() === $myPhoto->getUser()) {
             try {
                 $myPhoto->setPublic(true);
@@ -63,12 +62,11 @@ class MyPhotoController extends AbstractController
         return $this->redirectToRoute('app_latest_photos');
     }
 
-    #[Route('/my-photos/remove/{id}', name: 'app_remove_photo')]
+    #[Route('/my-photos/remove/{id}', name: 'app_remove_photo'), isGranted('IS_AUTHENTICATED_FULLY')]
     public function myPhotoRemove(int $id): Response
     {
         $entityManager = $this->doctrine->getManager();
         $myPhoto = $entityManager->getRepository(Photo::class)->find($id);
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($this->getUser() === $myPhoto->getUser()) {
             try {
                 $fileManager = new Filesystem();
