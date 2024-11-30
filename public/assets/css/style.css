@@ -26,3 +26,15 @@
     border-color: #678567;
     font-weight: bold;
 }
+
+.custom-bg-danger {
+    color: #fefeff;
+    background-color: #dd4422;
+    font-weight: bolder;
+}
+
+.custom-bg-set {
+    color: #fefeff;
+    background-color: #2255dd;
+    font-weight: bolder;
+}

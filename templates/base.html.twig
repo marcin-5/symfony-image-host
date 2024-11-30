@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Welcome!{% endblock %}</title>
+    <title>{% block title %}Image Host{% endblock %}</title>
     <link rel="icon"
           href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
     {% block stylesheets %}
@@ -30,8 +30,8 @@
                 <li class="nav-item {% if app.request.get('_route') == 'app_index' %}active{% endif %}">
                     <a class="nav-link" href="{{ path('app_index') }}">Strona główna</a>
                 </li>
-                <li class="nav-item {% if app.request.get('_route') == 'latest_photos' %}active{% endif %}">
-                    <a class="nav-link" href="{{ path('app_index') }}">Najnowsze</a>
+                <li class="nav-item {% if app.request.get('_route') == 'app_latest_photos' %}active{% endif %}">
+                    <a class="nav-link" href="{{ path('app_latest_photos') }}">Najnowsze</a>
                 </li>
                 <li class="nav-item {% if app.request.get('_route') == 'my_photos' %}active{% endif %}">
                     <a class="nav-link" href="{{ path('app_index') }}">Moje zdjęcia</a>
