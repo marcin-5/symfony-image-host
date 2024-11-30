@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[IsGranted('ROLE_USER')]
+#[IsGranted('IS_AUTHENTICATED_FULLY')]
 class MyPhotoController extends AbstractController
 {
     public function __construct(private readonly ManagerRegistry $doctrine)
@@ -27,7 +27,7 @@ class MyPhotoController extends AbstractController
     {
         $entityManager = $this->doctrine->getManager();
         $myPhoto = $entityManager->getRepository(Photo::class)->find($id);
-        if ($this->getUser() === $myPhoto->getUser()) {
+        if ($myPhoto && $this->getUser() === $myPhoto->getUser()) {
             try {
                 $myPhoto->setPublic(false);
                 $entityManager->persist($myPhoto);
@@ -47,7 +47,7 @@ class MyPhotoController extends AbstractController
     {
         $entityManager = $this->doctrine->getManager();
         $myPhoto = $entityManager->getRepository(Photo::class)->find($id);
-        if ($this->getUser() === $myPhoto->getUser()) {
+        if ($myPhoto && $this->getUser() === $myPhoto->getUser()) {
             try {
                 $myPhoto->setPublic(true);
                 $entityManager->persist($myPhoto);
@@ -68,7 +68,7 @@ class MyPhotoController extends AbstractController
     {
         $entityManager = $this->doctrine->getManager();
         $myPhoto = $entityManager->getRepository(Photo::class)->find($id);
-        if ($this->getUser() === $myPhoto->getUser()) {
+        if ($myPhoto && $this->getUser() === $myPhoto->getUser()) {
             try {
                 $fileManager = new Filesystem();
                 $fileManager->remove('images/hosting/' . $myPhoto->getFilename());
