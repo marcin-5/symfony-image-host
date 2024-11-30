@@ -15,16 +15,17 @@
                 <div class="d-flex mt-5">
                     <div class="d-flex flex-column mb-4">
                         <h1 class="text-center mb-4 h4">Wgrywaj dowolne zdjęcia!</h1>
-                        <form class="d-flex flex-column mb-4">
-                            <input type="file"/>
-                        </form>
-
+                        {{ form_start(form, {'attr':{'class':'d-flex flex-column mb-4'}}) }}
+                        {{ form_row(form.filename) }}
                         <div class="align-self-center">
-                            <label for="isPublic" class="font-weight-bold mt-4 mb-5 ml-2 mr-2">Publiczne</label>
-                            <input type="checkbox" name="isPublic" id="isPublic"/>
+                            {{ form_row(form.is_public, {
+                                'label_attr':{'class':'font-weight-bold mt-4 mb-5 ml-2 mr-2'}
+                            }) }}
                         </div>
                         <input type="submit" value="Wyślij"
                                class="form-control btn custom-btn w-50 align-self-center"/>
+                        {{ form_end(form) }}
+
                     </div>
                 </div>
             </div>
