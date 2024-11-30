@@ -6,6 +6,7 @@ use App\Entity\Photo;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -29,7 +30,7 @@ class MyPhotoController extends AbstractController
     }
 
     #[Route('/my-photos/set_private/{id}', name: 'app_set_photo_as_private')]
-    public function myPhotoSetAsPrivate(int $id): Response
+    public function myPhotoSetAsPrivate(int $id, Request $request): Response
     {
         $entityManager = $this->doctrine->getManager();
         $myPhoto = $entityManager->getRepository(Photo::class)->find($id);
@@ -45,7 +46,8 @@ class MyPhotoController extends AbstractController
         } else {
             $this->addFlash('warning', 'Nie jesteś właścicielem tego pliku.');
         }
-        return $this->redirectToRoute('app_latest_photos');
+
+        return $this->redirectToRoute($request->query->get('l') ? 'app_latest_photos' : 'app_my_photos');
     }
 
     #[Route('/my-photos/set_public/{id}', name: 'app_set_photo_as_public')]
@@ -66,11 +68,11 @@ class MyPhotoController extends AbstractController
             $this->addFlash('warning', 'Nie jesteś właścicielem tego pliku.');
         }
 
-        return $this->redirectToRoute('app_latest_photos');
+        return $this->redirectToRoute('app_my_photos');
     }
 
     #[Route('/my-photos/remove/{id}', name: 'app_remove_photo')]
-    public function myPhotoRemove(int $id): Response
+    public function myPhotoRemove(int $id, Request $request): Response
     {
         $entityManager = $this->doctrine->getManager();
         $myPhoto = $entityManager->getRepository(Photo::class)->find($id);
@@ -92,6 +94,6 @@ class MyPhotoController extends AbstractController
             $this->addFlash('warning', 'Nie jesteś właścicielem tego pliku.');
         }
 
-        return $this->redirectToRoute('app_latest_photos');
+        return $this->redirectToRoute($request->query->get('l') ? 'app_latest_photos' : 'app_my_photos');
     }
 }
